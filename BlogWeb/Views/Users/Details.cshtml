@@ -1,0 +1,27 @@
+﻿@model BlogWeb.Models.ApplicationUser
+
+<h2>Детали пользователя</h2>
+
+<div>
+    <dl>
+        <dt>Имя пользователя</dt>
+        <dd>@Model.UserName</dd>
+        
+        <dt>Email</dt>
+        <dd>@Model.Email</dd>
+        
+        <dt>Отображаемое имя</dt>
+        <dd>@Model.DisplayName</dd>
+        
+        <dt>О себе</dt>
+        <dd>@Model.Bio</dd>
+        
+        <dt>Статус</dt>
+        <dd>@(Model.IsActive ? "Активен" : "Неактивен")</dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Редактировать</a>
+    <a asp-action="Index" class="btn btn-secondary">Назад к списку</a>
+</div>

@@ -22,5 +22,22 @@ public async Task<IActionResult> Index(){
     var users = await _userManager.Users.ToListAsync();
     return View(users);
 }
+
+
+public async Task<IActionResult> Details(string id)
+{
+    if (id == null)
+    {
+        return NotFound();
+    }
+
+    var user = await _userManager.FindByIdAsync(id);
+    if (user == null)
+    {
+        return NotFound();
+    }
+
+    return View(user);
+}
     }
 }
