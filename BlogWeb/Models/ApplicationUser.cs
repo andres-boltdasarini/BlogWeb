@@ -6,9 +6,9 @@ namespace BlogWeb.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public string DisplayName { get; set; }
-        public string Bio { get; set; }
-        public string AvatarUrl { get; set; }
+        public string? DisplayName { get; set; } // ← Добавьте ?
+        public string? Bio { get; set; } // ← Добавьте ?
+        public string? AvatarUrl { get; set; } // ← Добавьте ?
         public bool IsActive { get; set; } = true;
         
         // Навигационные свойства

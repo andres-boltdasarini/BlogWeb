@@ -22,7 +22,7 @@ namespace BlogWeb.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Настройка связи многие-ко-многим для Article и Tag
+            // РќР°СЃС‚СЂРѕР№РєР° СЃРІСЏР·Рё РјРЅРѕРіРёРµ-РєРѕ-РјРЅРѕРіРёРј РґР»СЏ Article Рё Tag
             modelBuilder.Entity<ArticleTag>()
                 .HasKey(at => new { at.ArticleId, at.TagId });
 
