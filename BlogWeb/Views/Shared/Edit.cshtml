@@ -1,0 +1,176 @@
+﻿@model BlogWeb.ViewModels.EditUserViewModel
+
+@{
+    ViewData["Title"] = $"Редактирование пользователя: {Model.UserName}";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">@ViewData["Title"]</h4>
+                </div>
+                
+                <form asp-action="Edit" method="post">
+                    <div class="card-body">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="Id" />
+                        
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                        
+                        <!-- Основная информация -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="UserName" class="control-label"></label>
+                                    <input asp-for="UserName" class="form-control" />
+                                    <span asp-validation-for="UserName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Email" class="control-label"></label>
+                                    <input asp-for="Email" class="form-control" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Дополнительная информация -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="DisplayName" class="control-label"></label>
+                                    <input asp-for="DisplayName" class="form-control" />
+                                    <span asp-validation-for="DisplayName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="PhoneNumber" class="control-label"></label>
+                                    <input asp-for="PhoneNumber" class="form-control" />
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Биография и аватар -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Bio" class="control-label"></label>
+                                    <textarea asp-for="Bio" class="form-control" rows="3"></textarea>
+                                    <span asp-validation-for="Bio" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="AvatarUrl" class="control-label"></label>
+                                    <input asp-for="AvatarUrl" class="form-control" />
+                                    <span asp-validation-for="AvatarUrl" class="text-danger"></span>
+                                    
+                                    @if (!string.IsNullOrEmpty(Model.AvatarUrl))
+                                    {
+                                        <div class="mt-2">
+                                            <img src="@Model.AvatarUrl" alt="Аватар" 
+                                                 class="img-thumbnail" style="max-width: 100px;" />
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Настройки безопасности -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" asp-for="EmailConfirmed" />
+                                    <label class="form-check-label" asp-for="EmailConfirmed"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" asp-for="PhoneNumberConfirmed" />
+                                    <label class="form-check-label" asp-for="PhoneNumberConfirmed"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" asp-for="TwoFactorEnabled" />
+                                    <label class="form-check-label" asp-for="TwoFactorEnabled"></label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Блокировка -->
+                        <div class="form-group mb-3">
+                            <label asp-for="LockoutEnd" class="control-label">Блокировка до</label>
+                            <input type="datetime-local" asp-for="LockoutEnd" class="form-control" 
+                                   value="@(Model.LockoutEnd?.UtcDateTime.ToString("yyyy-MM-ddTHH:mm") ?? "")" />
+                            <small class="form-text text-muted">Оставьте пустым, чтобы снять блокировку</small>
+                        </div>
+                        
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" asp-for="ClearLockout" />
+                            <label class="form-check-label" asp-for="ClearLockout">
+                                Снять блокировку
+                            </label>
+                        </div>
+                        
+                        <!-- Сброс счетчиков -->
+                        <div class="form-group mb-3">
+                            <label asp-for="AccessFailedCount" class="control-label">Счетчик неудачных попыток</label>
+                            <input type="number" asp-for="AccessFailedCount" 
+                                   class="form-control" min="0" />
+                        </div>
+                        
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" asp-for="ResetSecurityStamp" />
+                            <label class="form-check-label" asp-for="ResetSecurityStamp">
+                                Обновить Security Stamp (разлогинит на всех устройствах)
+                            </label>
+                        </div>
+                        
+                        <!-- Активность -->
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" asp-for="IsActive" />
+                            <label class="form-check-label" asp-for="IsActive"></label>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">Назад</a>
+                                <a asp-action="Index" class="btn btn-outline-dark ms-2">К списку</a>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    
+    <script>
+        // Обработка снятия блокировки
+        document.getElementById('ClearLockout').addEventListener('change', function() {
+            var lockoutField = document.getElementById('LockoutEnd');
+            if (this.checked) {
+                lockoutField.value = '';
+                lockoutField.disabled = true;
+            } else {
+                lockoutField.disabled = false;
+            }
+        });
+    </script>
+}
